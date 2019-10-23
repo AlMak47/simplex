@@ -1,113 +1,70 @@
-@extends('template')
+@extends('layouts.template')
 
 @section('titre')
 Home
 @endsection
+@section('content')
+<!-- banniere -->
+<div class="uk-position-relative uk-visible-toggle uk-light uk-margin-remove uk-padding-remove" uk-slideshow="animation: push ;  max-height: 300" >
 
-@section('banniere')
-    <div uk-slideshow="max-height: 300">
-        <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1">
     <ul class="uk-slideshow-items">
         <li>
             <img src="{{asset('img/sug.png')}}" alt="" uk-cover>
+            <div class="uk-overlay uk-overlay-primary uk-position-bottom-left uk-text-center uk-transition-slide-bottom">
+                <h3 class="uk-margin-remove">Bottom</h3>
+                <p class="uk-margin-remove">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
         </li>
         <li>
             <img src="{{asset('img/sug2.png')}}" alt="" uk-cover>
+            <div class="uk-overlay uk-overlay-primary uk-position-bottom-right uk-text-center uk-transition-slide-right">
+                <h3 class="uk-margin-remove">Bottom</h3>
+                <p class="uk-margin-remove">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            </div>
         </li>
     </ul>
+
     <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
     <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
-</div>
-    <ul>
-        <ul class="uk-slideshow-nav uk-dotnav uk-flex-center uk-margin"></ul>
-    </ul>
-</div>
-@endsection
 
-@section('content')
-<!-- WHAT WHERE WHY SECTION -->
-    <div class="uk-section uk-section-default uk-padding-remove">
-    <div class="uk-container">
-
-        <div class="uk-grid-match uk-child-width-1-3@m" uk-grid>
-            @foreach($questions as $values)
-            <div>
-                <h3>{{$values->intitule}}</h3>
-                <hr class="uk-divider-small">
-                <p>{{str_limit($values->reponse,100)}}</p>
-                <a href="{{url('faq',['id'=>$values->id])}}" class="uk-text-capitalize uk-text-left uk-width-1-2 uk-icon-link uk-button uk-button-default uk-border-rounded" uk-icon="icon:arrow-right">En savoir plus</a>
-            </div>
-            @endforeach
-            
-        </div>
-
-    </div>
 </div>
 <!-- // -->
-<hr class="uk-divider-small uk-text-center uk-margin-bottom-remove">
-<!-- NEWS SECTION  -->
-<div class="uk-section uk-section-default uk-padding-remove">
-    <div class="uk-container">
-        <div class="uk-grid-match uk-child-width-1-3@m" uk-grid>
-        @foreach($produits as $values)
-        <div class="uk-grid-collapse uk-child-width-1-2@s uk-margin" uk-grid>
-            <div class="uk-card-media-left uk-cover-container">
-                <img src="{{asset('uploads/'.$values->image)}}" class="uk-width-1-4 uk-height-1-3 uk-align-center"  alt="" uk-img>
-            </div>
-            <div>
-                <div class="uk-card-body">
-                    <h3 class="uk-card-title">{{$values->nom}}</h3>
-                    <p>{{$values->description}}</p>
-                    <!-- <a href="{{url('produits',['id'=>$values->id])}}" class="uk-text-capitalize uk-text-left uk-width-1-1 uk-icon-link uk-button uk-button-default uk-border-rounded" uk-icon="icon:arrow-right">En savoir plus</a> -->
-                </div>
-            </div>
-        </div>
-        @endforeach
-        <div>
-            <!-- // -->
-            <div class="fb-page" data-href="https://www.facebook.com/implex-BWT-Sarl-347643719117902/" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/implex-BWT-Sarl-347643719117902/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/implex-BWT-Sarl-347643719117902/">Simplex BWT Sarl</a></blockquote></div>
-            <!-- /// -->
-        </div>
-    </div>
-    </div>
-</div>
-<!-- // -->
-
-<hr class="uk-divider-small uk-text-center uk-margin-bottom-remove">
-<!-- blog -->
+<!-- about us -->
 <div class="uk-section uk-section-default">
-    <div class="uk-container">
-        <h3>BLOG</h3>
-        <div uk-slider="autoplay:true;autoplay-interval:5000">
-
-            <div class="uk-position-relative uk-visible-toggle uk-light">
-
-                <ul class="uk-slider-items uk-child-width-1-3@s uk-grid">
-                    @foreach($articles as $values)
-                    <li>
-                        <div class="uk-card uk-card-default">
-                            <div class="uk-card-media-top">
-                                <img src="{{asset('uploads/'.$values->image)}}" class="uk-height-medium" alt="" uk-img>
-                            </div>
-                            <div class="uk-card-body">
-                                <h3 class="uk-card-title">{{$values->nom}}</h3>
-                                <p>{{str_limit($values->description,100)}}</p>
-                                <a href="{{url('blog',['id'=>$values->id])}}" uk-icon="icon:arrow-right" class="uk-icon-link uk-text-capitalize uk-button uk-button-default uk-border-rounded" style="color:black !important;">En savoir plus</a>
-                            </div>
-                        </div>
-                    </li>
-                    @endforeach
-                </ul>
-
-                <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slider-item="previous"></a>
-                <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slider-item="next"></a>
-
+  <div class="uk-container uk-container-small" uk-scrollspy="cls:uk-animation-slide-bottom; delay : 500">
+    <h3 class="">A Propos</h3>
+    <hr class="uk-divider-small">
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+    <a href="#" class="uk-button uk-button-text uk-text-capitalize">En savoir plus <span uk-icon="icon : arrow-right;"></span> </a>
+  </div>
+</div>
+<!-- // -->
+<!-- NOs Produits -->
+<div class="uk-section uk-section-muted">
+  <div class="uk-container uk-container-small">
+    <h3>Nos Produits</h3>
+    <hr class="uk-divider-small">
+    <div class="uk-child-width-1-3@m" uk-grid uk-scrollspy="cls: uk-animation-slide-right; target: .uk-card; delay: 200; repeat: true">
+      @if($produits)
+      @foreach($produits as $produit)
+      <div class="">
+      <div class="uk-card uk-card-default uk-padding-remove uk-border-rounded uk-box-shadow-small item">
+            <div class="uk-card-media-top">
+                <img src="{{asset('img/regime.png')}}" alt="">
             </div>
-
-            <!-- <ul class="uk-slider-nav uk-dotnav uk-flex-center uk-margin"></ul> -->
-
+            <div class="uk-card-body">
+                <h4 class="">{{$produit->libelle}}</h4>
+                <p>{!!str_limit($produit->description,50,'...')!!}</p>
+                <a href="#" class="uk-button uk-button-text uk-text-capitalize">Details <span uk-icon="icon:arrow-right"></span> </a>
+            </div>
+          </div>
         </div>
-    </div>
+      @endforeach
+      @endif
+
+  </div>
 </div>
 <!-- // -->
 @endsection

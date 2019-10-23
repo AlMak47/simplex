@@ -12,6 +12,8 @@ use App\Produit;
 use App\Faq;
 use App\Blog;
 use App\About;
+use Illuminate\Support\Str;
+
 class HomeController extends Controller
 {
     use Similarity;
@@ -20,11 +22,105 @@ class HomeController extends Controller
      *
      * @return void
      */
-    private $file,$filename;
-    public function __construct()
-    {
+    private $file,$filename , $pages;
+
+    public function __construct() {
         $this->middleware('auth');
+        $this->pages = About::all();
     }
+
+    public function pagesIndex() {
+      $pages = About::all();
+      return view('admin.pages-index')->withPages($pages);
+    }
+
+    public function editPage($slug) {
+      $edit = About::find($slug);
+      return view("admin.edit-page")->withPages($this->pages)->withEdit($edit);
+    }
+
+    public function produitIndex() {
+      $produits = Produit::all();
+      return view('admin.produit-index')->withPages($this->pages)->withProduits($produits);
+    }
+
+    public function addProduits(Request $request) {
+      $validation = $request->validate([
+        'libelle' =>  'required|string',
+        'prix_unitaire' =>  'required|numeric',
+        'image' =>  'image',
+        'fiche_technique' =>  'file'
+      ]);
+      if($request->hasFile('fiche_technique') || $request->hasFile('image')) {
+        // un fichier existe
+      } else {
+        // aucun fichier n'existe
+        $item = new Produit;
+        $item->reference = 'item-'.time();
+        $item->libelle = $request->input('libelle');
+        $item->description = $request->input('description');
+        $item->save();
+        return redirect("admin/produits")->withSuccess("Success!");
+      }
+    }
+    //
+    public function makeEditPage(Request $request,$slug) {
+      $validation = $request->validate([
+        'slug'  =>  'required|exists:pages,slug',
+        'titre' =>  'required|string',
+        'contenu' =>   'required|string'
+      ]);
+      $edit = About::find($slug);
+      $edit->titre = $request->input('titre');
+      $edit->contenu = $request->input('contenu');
+      $edit->slug = Str::slug($request->input("titre"),'-');
+      $edit->save();
+      return redirect('/admin/pages/'.$edit->slug.'/edit')->withSuccess("Success!");
+    }
+    // ajouter une page
+    public function addPages(Request $request) {
+      $validation = $request->validate([
+        'titre' =>  'required|string',
+        'contenu' =>  'required|string'
+      ]);
+
+      $pages = new About ;
+      $pages->slug = Str::slug($request->input('titre'),'-');
+      $pages->titre = $request->input('titre');
+      $pages->contenu = $request->input('contenu');
+      $pages->save();
+      return redirect('admin/pages')->withSuccess('Success!');
+    }
+    // editer un produit
+    public function editProduit(Request $request , $reference) {
+      $edit = Produit::find($reference);
+      return view('admin.edit-produit')->withEdit($edit)->withPages($this->pages);
+    }
+    // make edit produit
+    public function makeEditProduit(Request $request , $reference) {
+      $validation = $request->validate([
+        'libelle' =>  'required|string',
+        'reference' =>  'required|string|exists:produits,reference',
+        'prix_unitaire' =>  'numeric',
+        'image' =>  'image',
+        'fichie_technique'  =>  'file'
+      ]);
+      if($request->hasFile('image') || $request->hasFile('fiche_technique')) {
+        // un fichier existe
+
+        // dd($item);
+        dd($request);
+      } else {
+        // aucun fichier n'existe
+        $item = Produit::find($request->input('reference'));
+        $item->libelle = $request->input('libelle');
+        $item->description = $request->input('description');
+        $item->prix_unitaire  =   $request->input('prix_unitaire');
+        $item->save();
+        return redirect("/admin/produits/".$item->reference."/edit")->withSuccess("Success!");
+      }
+    }
+
     public function getFichier($chemin,$fichier,$request) {
 
         $this->file=$request->file($fichier);
@@ -36,19 +132,6 @@ class HomeController extends Controller
             } while(file_exists($chemin.'/'.$nom));
             $this->filename=$nom;
         }
-    }
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('home');
-    }
-
-    public function addproduit() {
-        return view('admin.addproduits');
     }
 
     public function postProduit(ProduitRequest $request) {
@@ -71,11 +154,6 @@ class HomeController extends Controller
 
     }
 
-    // list des produits
-    public function listProduit() {
-        $produits = Produit::select()->get();
-        return view('admin.list-produit')->withProduits($produits);
-    }
 
     // delete produits
 
@@ -89,10 +167,6 @@ class HomeController extends Controller
         // dd($store);
     }
 
-    public function addQuestion() {
-        return view('admin.addquestion');
-    }
-
     public function postQuestion(FaqRequest $request) {
         $faq= new Faq;
         $faq->intitule = $request->input('intitule');
@@ -101,14 +175,6 @@ class HomeController extends Controller
         return redirect('admin/add-question');
     }
 
-    public function listQuestion() {
-        $question=Faq::select()->get();
-        return view('admin.list-question')->withQuestion($question);
-    }
-
-    public function addArticle() {
-        return view('admin.add-article');
-    }
 
     public function postArticle(BlogRequest $request) {
         // dd($request);
@@ -123,25 +189,4 @@ class HomeController extends Controller
         }
     }
 
-    public function listArticle() {
-        $articles = Blog::select()->get();
-        return view('admin.list-article')->withArticles($articles);
-    }
-
-    public function aboutPage() {
-        return view('admin.about-settings');
-    }
-
-     public function postPresentation(AboutRequest $request) {
-        $this->storeDataAbout($request);
-        $msg;
-        if($request->titre == "presentation") {
-            $msg = "presentation";
-        } else if($request->titre == "historique") {
-            $msg = "historique";
-        } else {
-            $msg = "projet";
-        }
-        return redirect('admin/about-settings')->with('success',"$msg ajouté avec success");
-    }
 }

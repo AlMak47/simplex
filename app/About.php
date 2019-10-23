@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class About extends Model
 {
     //
-	protected $table = 'about';
+	protected $table = 'pages';
+	protected $keyType = 'string';
+	protected $primaryKey = 'slug';
 }

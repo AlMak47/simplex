@@ -14,11 +14,11 @@ class CreateAboutPage extends Migration
     public function up()
     {
         //
-        Schema::create('about',function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('titre')->unique();
+        Schema::create('pages',function (Blueprint $table) {
+            $table->string("slug");
+            $table->primary('slug');
+            $table->string('titre');
             $table->text('contenu');
-            $table->string('illustration')->default(null);
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateAboutPage extends Migration
     public function down()
     {
         //
-        Schema::dropIfExists('about');
+        Schema::dropIfExists('pages');
     }
 }

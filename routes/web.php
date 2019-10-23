@@ -12,31 +12,17 @@
 */
 
 Route::get('/','PageController@home');
-// Route::get('/about-us/{item}','PageController@aboutUs');
-//
-//
-// Route::get('/faq/{id}','PageController@faqDetails');
-// Route::get('/blog/{id}','PageController@blogDetails');
-// Route::get('/produits/{id}','PageController@produitDetails');
-// Route::get('/contact-us','PageController@contactUs');
-// Route::post('/contact-us','PageController@postContact');
-// Route::get('/contact-us/success','PageController@contactSendSuccess');
+Route::get('/a-propos/{slug}','PageController@aboutUsPages');
 
 Auth::routes();
 
 //
-// Route::get('/admin', 'HomeController@index')->name('home');
-// Route::get('/admin/addproduit','HomeController@addproduit');
-// Route::post('/admin/addproduit','HomeController@postProduit');
-// Route::get('admin/listproduit','HomeController@listProduit');
-// Route::delete('admin/produit/delete/{id}','HomeController@deleteProduits');
-// Route::get('admin/add-question','HomeController@addQuestion');
-// Route::post('admin/add-question','HomeController@postQuestion');
-// Route::get('admin/list-question','HomeController@listQuestion');
-// Route::get('admin/add-article','HomeController@addArticle');
-// Route::post('admin/add-article','HomeController@postArticle');
-// Route::get('admin/list-article','HomeController@listArticle');
-// Route::get('admin/about-settings','HomeController@aboutPage');
-// Route::post('about-settings/presentation','HomeController@postPresentation');
-// Route::post('about-settings/historique','HomeController@postPresentation');
-// Route::post('about-settings/project','HomeController@postPresentation');
+Route::get('/admin/pages','HomeController@pagesIndex');
+Route::get('/admin/pages/{slug}/edit','HomeController@editPage');
+Route::get('/admin/produits','HomeController@produitIndex');
+Route::get('/admin/produits/{reference}/edit','HomeController@editProduit');
+
+Route::post('/admin/pages/{slug}/edit','HomeController@makeEditPage');
+Route::post('/admin/pages/add','HomeController@addPages');
+Route::post("/admin/produits/add",'HomeController@addProduits');
+Route::post('/admin/produits/{reference}/edit','HomeController@makeEditProduit');

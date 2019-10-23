@@ -1,0 +1,23 @@
+html , body {
+  margin : 0;
+  padding : 0;
+  background : #f0f0f0;
+}
+
+.menu {
+  background : #fff !important;
+}
+
+.facebook-button {
+  /* background : darkblue; */
+  color: #fff;
+}
+
+.logo {
+  width : 11rem;
+  top : 0;
+}
+
+.item {
+  cursor : pointer;
+}

@@ -15,11 +15,13 @@ class CreateProduits extends Migration
     {
         //
         Schema::create('produits',function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('nom');
+            $table->string("reference");
+            $table->primary("reference");
+            $table->string('libelle');
             $table->mediumText('description');
-            $table->string('image');
-            $table->string('fichier');
+            $table->float('prix_unitaire',11)->default(0);
+            $table->string('image')->default("default.png");
+            $table->string('fiche_technique');
             $table->timestamps();
         });
     }
