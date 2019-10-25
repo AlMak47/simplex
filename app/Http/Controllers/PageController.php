@@ -9,6 +9,7 @@ use App\Produit;
 use App\Faq;
 use App\Blog;
 use App\Contact;
+use App\Slideshow;
 use App\About;
 class PageController extends Controller
 {
@@ -22,7 +23,8 @@ class PageController extends Controller
     }
 
     public function home() {
-    	return view('acceuil')->withPages($this->pages)->withProduits($this->produits);
+      $slideshow = Slideshow::all();
+    	return view('acceuil')->withPages($this->pages)->withProduits($this->produits)->withSlides($slideshow);
     }
 
     public function aboutUsPages($slug) {

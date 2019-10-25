@@ -7,22 +7,19 @@ Home
 <!-- banniere -->
 <div class="uk-position-relative uk-visible-toggle uk-light uk-margin-remove uk-padding-remove" uk-slideshow="animation: push ;  max-height: 300" >
 
+  @if($slides)
     <ul class="uk-slideshow-items">
+      @foreach($slides as $slide)
         <li>
-            <img src="{{asset('img/sug.png')}}" alt="" uk-cover>
+            <img src="{{asset('slideshow/'.$slide->slide)}}" alt="" uk-cover>
             <div class="uk-overlay uk-overlay-primary uk-position-bottom-left uk-text-center uk-transition-slide-bottom">
-                <h3 class="uk-margin-remove">Bottom</h3>
-                <p class="uk-margin-remove">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <h3 class="uk-margin-remove">{{$slide->titre}}</h3>
+                <p class="uk-margin-remove">{!!$slide->description!!}</p>
             </div>
         </li>
-        <li>
-            <img src="{{asset('img/sug2.png')}}" alt="" uk-cover>
-            <div class="uk-overlay uk-overlay-primary uk-position-bottom-right uk-text-center uk-transition-slide-right">
-                <h3 class="uk-margin-remove">Bottom</h3>
-                <p class="uk-margin-remove">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-        </li>
+        @endforeach
     </ul>
+    @endif
 
     <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous uk-slideshow-item="previous"></a>
     <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next uk-slideshow-item="next"></a>
@@ -35,9 +32,9 @@ Home
     <h3 class="">A Propos</h3>
     <hr class="uk-divider-small">
     <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      {!!$pages[0]->contenu!!}
     </p>
-    <a href="#" class="uk-button uk-button-text uk-text-capitalize">En savoir plus <span uk-icon="icon : arrow-right;"></span> </a>
+    <a href="{{url('a-propos',[$pages[2]->slug])}}" class="uk-button uk-button-text uk-text-capitalize">En savoir plus <span uk-icon="icon : arrow-right;"></span> </a>
   </div>
 </div>
 <!-- // -->

@@ -21,8 +21,10 @@ Route::get('/admin/pages','HomeController@pagesIndex');
 Route::get('/admin/pages/{slug}/edit','HomeController@editPage');
 Route::get('/admin/produits','HomeController@produitIndex');
 Route::get('/admin/produits/{reference}/edit','HomeController@editProduit');
+Route::get('/admin/slideshow','HomeController@slideShowIndex');
 
 Route::post('/admin/pages/{slug}/edit','HomeController@makeEditPage');
 Route::post('/admin/pages/add','HomeController@addPages');
 Route::post("/admin/produits/add",'HomeController@addProduits');
 Route::post('/admin/produits/{reference}/edit','HomeController@makeEditProduit');
+Route::post('/admin/slideshow/add','HomeController@addSlideshow');
