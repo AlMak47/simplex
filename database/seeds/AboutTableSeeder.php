@@ -16,13 +16,13 @@ class AboutTableSeeder extends Seeder
           'slug'  =>  'historique',
           'titre'  =>  'Historique',
           'contenu' =>  'A Rediger',
-        ],
-      [
+        ]);
+      DB::table('pages')->insert([
         'slug'  =>  'notre-presentation',
         'titre' =>  'Notre Presentation',
         'contenu' =>  'A Rediger'
-      ],
-    [
+      ]);
+    DB::table('pages')->insert([
       'slug'  =>  'presentation-du-projet',
       'titre' =>  'Presentation du Projet',
       'contenu' =>  'A Rediger'
