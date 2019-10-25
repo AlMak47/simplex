@@ -52,7 +52,11 @@ Home
       <div class="">
       <div class="uk-card uk-card-default uk-padding-remove uk-border-rounded uk-box-shadow-small item">
             <div class="uk-card-media-top">
-                <img src="{{asset('img/regime.png')}}" alt="">
+              @if($produit->image == 'default.png')
+              <img src="{{asset('uploads/default.svg')}}" style="opacity : 0.2;" alt="">
+                @else
+                <img src="{{asset('uploads/'.$produit->image)}}" class="item-img" alt="">
+                @endif
             </div>
             <div class="uk-card-body">
                 <h4 class="">{{$produit->libelle}}</h4>

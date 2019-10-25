@@ -26,6 +26,7 @@
 				<div class="uk-navbar-dropdown">
             <ul class="uk-nav uk-navbar-dropdown-nav">
                 <li><a href="{{url('/admin/pages')}}">Pages</a></li>
+                <li><a href="{{url('/admin/slideshow')}}">Bannieres</a></li>
                 <li><a href="{{url('admin/produits')}}">Produits</a></li>
                 <li><a href="#">Emails</a></li>
 								<li><a href="#">Parametres</a></li>

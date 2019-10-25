@@ -21,3 +21,8 @@ html , body {
 .item {
   cursor : pointer;
 }
+
+.item-img {
+  height : 15rem ;
+  width : 100% ;
+}

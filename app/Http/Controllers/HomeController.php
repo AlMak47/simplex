@@ -13,6 +13,7 @@ use App\Faq;
 use App\Blog;
 use App\About;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
 class HomeController extends Controller
 {
@@ -51,17 +52,26 @@ class HomeController extends Controller
         'image' =>  'image',
         'fiche_technique' =>  'file'
       ]);
+      $item = new Produit;
+      $item->reference = 'item-'.time();
+      $item->libelle = $request->input('libelle');
+      $item->description = $request->input('description');
+      $item->prix_unitaire  = $request->input('prix_unitaire');
+      
       if($request->hasFile('fiche_technique') || $request->hasFile('image')) {
         // un fichier existe
-      } else {
-        // aucun fichier n'existe
-        $item = new Produit;
-        $item->reference = 'item-'.time();
-        $item->libelle = $request->input('libelle');
-        $item->description = $request->input('description');
-        $item->save();
-        return redirect("admin/produits")->withSuccess("Success!");
+        if($request->hasFile('image')) {
+          // image
+          $extension = $request->file('image')->getClientOriginalExtension();
+          $item->image = Str::random(10).'-'.time().'.'.$extension;
+          $request->file('image')->move(config('image.path'),$item->image);
+        }
+        if($request->hasFile("fiche_technique")) {
+          // fiche technique
+        }
       }
+      $item->save();
+      return redirect("admin/produits")->withSuccess("Success!");
     }
     //
     public function makeEditPage(Request $request,$slug) {
@@ -105,20 +115,44 @@ class HomeController extends Controller
         'image' =>  'image',
         'fichie_technique'  =>  'file'
       ]);
+
+      $item = Produit::find($request->input('reference'));
+      $item->libelle = $request->input('libelle');
+      $item->description = $request->input('description');
+      $item->prix_unitaire  =   $request->input('prix_unitaire');
+
       if($request->hasFile('image') || $request->hasFile('fiche_technique')) {
         // un fichier existe
+        if($request->hasFile('image')) {
+          // seulement limage
+          if(File::exists(config('image.path').'/'.$item->image)) {
+            File::delete(config('image.path').'/'.$item->image);
+            $extension = $request->file("image")->getClientOriginalExtension();
+            $item->image = Str::random(10).'-'.time().'.'.$extension;
+            $request->file('image')->move(config('image.path'),$item->image);
+          } else {
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $item->image = Str::random(10).'-'.time().'.'.$extension;
+            $request->file('image')->move(config('image.path'),$item->image);
+          }
+        }
 
-        // dd($item);
-        dd($request);
-      } else {
-        // aucun fichier n'existe
-        $item = Produit::find($request->input('reference'));
-        $item->libelle = $request->input('libelle');
-        $item->description = $request->input('description');
-        $item->prix_unitaire  =   $request->input('prix_unitaire');
-        $item->save();
-        return redirect("/admin/produits/".$item->reference."/edit")->withSuccess("Success!");
+        if($request->hasFile('fiche_technique')) {
+
+          if(File::exists(config('fiche.path').'/'.$item->fiche_technique)) {
+            $extension = $request->file('fiche_technique')->getClientOriginalExtension();
+            File::delete(config('fiche.path').'/'.$item->fiche_technique);
+            $item->fiche_technique = Str::random(10).'-'.time().'.'.$extension;
+            $request->file('fiche_technique')->move(config('fiche.path'),$item->fiche_technique);
+          } else {
+            $_extension = $request->file('fiche_technique')->getClientOriginalExtension();
+            $item->fiche_technique = Str::random(10).'-'.time().'.'.$_extension;
+            $request->file('fiche_technique')->move(config('fiche.path'),$item->fiche_technique);
+          }
+        }
       }
+      $item->save();
+      return redirect("/admin/produits/".$item->reference."/edit")->withSuccess("Success!");
     }
 
     public function getFichier($chemin,$fichier,$request) {
